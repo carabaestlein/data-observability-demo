@@ -1,0 +1,16 @@
+name: pipeline_demo
+version: 1.0.0
+config-version: 2
+
+profile: pipeline_demo
+
+model-paths: ["models"]
+
+models:
+  pipeline_demo:
+    +materialized: view
+    bronze:
+      +schema: bronze
+    silver:
+      +schema: silver
+      +materialized: table
