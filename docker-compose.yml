@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: bank_demo_postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-demo}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-demo}
+      POSTGRES_DB: ${POSTGRES_DB:-bank}
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-demo} -d ${POSTGRES_DB:-bank}"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  dbt:
+    platform: linux/amd64
+    image: ghcr.io/dbt-labs/dbt-postgres:latest
+    container_name: pipeline_demo
+    depends_on:
+      postgres:
+        condition: service_healthy
+    build:
+      context: ./dbt
+    working_dir: /usr/app
+    volumes:
+      - ./dbt:/usr/app
+    environment:
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_SSLMODE: ${POSTGRES_SSLMODE:-require}
+      OPENLINEAGE_URL: ${OPENLINEAGE_URL}
+      OPENLINEAGE_API_KEY: ${OPENLINEAGE_API_KEY}
+      OPENLINEAGE_NAMESPACE: ${OPENLINEAGE_NAMESPACE:-bank-demo}
+
