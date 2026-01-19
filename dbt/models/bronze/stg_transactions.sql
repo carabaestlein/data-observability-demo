@@ -1,10 +1,10 @@
 select
   transaction_id,
   origin_account_number,
-  desination_account_number, 
+  destination_account_number, 
   transaction_timestamp,
   amount,
   currency,
   category,
-  status
+  payment_status
 from public.transactions

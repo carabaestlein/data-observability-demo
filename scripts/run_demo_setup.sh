@@ -16,7 +16,7 @@ docker run --rm \
 
 echo "==> Running dbt (build)..."
 docker compose run --rm dbt dbt deps
-docker compose run --rm dbt dbt build --profiles-dir .
+docker compose run --rm dbt dbt-ol build --profiles-dir . --consume-structured-logs
 
 echo "==> Verifying output rowcount..."
 docker run --rm \

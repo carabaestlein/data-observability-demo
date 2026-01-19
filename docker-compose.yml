@@ -14,18 +14,24 @@ services:
       timeout: 3s
       retries: 30
   dbt:
-  image: ghcr.io/dbt-labs/dbt-postgres:1.8.0
-  container_name: pipeline_demo
-  depends_on:
-    postgres:
-      condition: service_healthy
-  working_dir: /usr/app
-  volumes:
-    - ./dbt:/usr/app
-  environment:
-    POSTGRES_HOST: postgres
-    POSTGRES_USER: ${POSTGRES_USER:-demo}
-    POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-demo}
-    POSTGRES_DB: ${POSTGRES_DB:-bank}
-    POSTGRES_PORT: 5432
+    platform: linux/amd64
+    image: ghcr.io/dbt-labs/dbt-postgres:latest
+    container_name: pipeline_demo
+    depends_on:
+      postgres:
+        condition: service_healthy
+    build:
+      context: ./dbt
+    working_dir: /usr/app
+    volumes:
+      - ./dbt:/usr/app
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_USER: ${POSTGRES_USER:-demo}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-demo}
+      POSTGRES_DB: ${POSTGRES_DB:-bank}
+      POSTGRES_PORT: 5432
+      OPENLINEAGE_URL: ${OPENLINEAGE_URL}
+      OPENLINEAGE_API_KEY: ${OPENLINEAGE_API_KEY}
+      OPENLINEAGE_NAMESPACE: ${OPENLINEAGE_NAMESPACE:-bank-demo}
 

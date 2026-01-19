@@ -12,7 +12,7 @@ select
   t.amount,
   t.currency,
   t.category,
-  t.status
+  t.payment_status
 from {{ ref('stg_transactions') }} t
 join {{ ref('stg_customers') }} c
   on t.origin_account_number = c.account_number
