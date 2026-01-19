@@ -11,7 +11,7 @@ It then contains instructions for how to create the following scenarios that can
 ## Pre-requisites:
 1. Download Docker Desktop (or Docker Engine)
 2. Fork this repo
-3. Install `brew`
+3. Create a free Postgres using Neon
 
 ## Setup
 1. Create your local version of the `.env` file
@@ -30,19 +30,14 @@ platform: linux/amd64
 ./scripts/run_demo_setup.sh
 ```
 4. Verify the pipeline monitoring setup by checking you can see the pipeline run in Ataccama
-Note: the following steps are only required if you want to show an end to end demo of Ataccama's data observability and data quality functionality. If you only want to showcase pipeline monitoring, you can skip to the next section.
-5. Verify the Postgres tables by connect with any SQL client to `localhost:5432` (demo/demo, db bank)
+5. Verify the Postgres tables by connect with any SQL client to `<your-neon-host-url>:5432` (database: `neondb`, user: `neondb_owner`, password: `<your-password>`)
 Query:
 ```
 select * from silver.customer_transactions;
 ```
 6. Connect Postgres to Ataccama for DQ monitoring
-* Create a public endpoint for your Postgres database with ngrok
-```
-brew install ngrok
-ngrok tcp 5432
-```
-This will provide you with the JDBC URL to use in Ataccama. Note that unless you pay, your ngrok URL will change every time. Also, if you have an issue with Mac permissions, ...
+* Use the provided url as the JDBC string in Ataccama: `jdbc:postgresql://<your-neon-host-url>/neondb?sslmode=require&channel_binding=require`
+* Fill in the user and password and test connection
 * ...
 7. Verify the data connection by running full profiling and checking the results in Ataccama
 
