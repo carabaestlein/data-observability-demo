@@ -26,5 +26,4 @@ docker compose run --rm dbt dbt deps
 docker compose run --rm dbt dbt-ol build --profiles-dir . --consume-structured-logs
 
 echo "==> Done."
-echo "Postgres is still running. Stop with: docker compose down -v"
 

@@ -16,7 +16,7 @@ CREATE TABLE public.customers (
 CREATE TABLE public.transactions (
   transaction_id              BIGSERIAL PRIMARY KEY,
   origin_account_number       TEXT NOT NULL,
-  destination_account_number   TEXT NOT NULL,
+  destination_account_number  TEXT NOT NULL,
   transaction_timestamp       TIMESTAMP NOT NULL,
   amount                      NUMERIC(12,2) NOT NULL,
   currency                    TEXT NOT NULL,
@@ -38,4 +38,4 @@ INSERT INTO public.transactions (origin_account_number, destination_account_numb
 ('36497043', '99554022', NOW() - INTERVAL '5 days',  320.10, 'EUR', 'Lufthansa',    'travel',    'pending'),
 ('14555221', '99809306', NOW() - INTERVAL '3 days',   42.50, 'USD', 'Whole Foods',  'groceries', 'settled'),
 ('14555221', '09848773', NOW() - INTERVAL '2 days',  250.00, 'USD', 'Apple',        'retail',    'settled'),
-('53994020', '97220409', NOW() - INTERVAL '1 days',   12.40, 'USD', 'Walmart',    'groceries', 'settled');
+('53994020', '97220409', NOW() - INTERVAL '1 days',   12.40, 'USD', 'Walmart',      'groceries', 'settled');

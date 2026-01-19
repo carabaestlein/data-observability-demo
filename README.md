@@ -38,10 +38,15 @@ select * from silver.customer_transactions;
 6. Connect Postgres to Ataccama for DQ monitoring
 * Use the provided url as the JDBC string in Ataccama: `jdbc:postgresql://<your-neon-host-url>/neondb?sslmode=require&channel_binding=require`
 * Fill in the user and password and test connection
-* ...
 7. Verify the data connection by running full profiling and checking the results in Ataccama
 
 ## Generating demo content
-1. Generating a pipeline failure
-2. Generating a DQ issue
-3. Generating a profiling anomaly
+1. Create DQ rules in Ataccama and run DQ evaluation
+* Leverage the AI Agent to generate DQ rules for all attributes in the `customers_transactions` table
+* Set up a DQ monitoring threshold
+2. Generate some bad data - this will generate a DQ alert
+```
+./scripts/run_demo.sh
+```
+3. If you want to generate a profiling anomaly, you need to run DQ evaluation at least 7 times before you run the `insert_bad_data.sh` script
+4. If you want to generate a pipeline failure, you can simply mis-spell one of the column names in `customers_transactions.sql`, and then run `run_dbt_only.sh`
